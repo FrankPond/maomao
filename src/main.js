@@ -4,6 +4,16 @@ import App from './App.vue'
 import router from './routers'
 import store from './stores'
 
+//在main中引入axios后，别的地方就不用引了
+import axios from 'axios'
+//别的地方可用this.axios调用
+Vue.prototype.axios = axios;
+
+//全局过滤器
+Vue.filter('setWH',(url , arg)=>{
+    return url.replace(/w\.h/,arg);
+});
+
 Vue.config.productionTip = false
 
 new Vue({
