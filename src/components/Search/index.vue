@@ -64,9 +64,12 @@ export default {
       // console.log(newVal)
       var that = this;
 
+      //搜索输入直接获得城市id，不需要判断城市id是否改变
+      var cityId = this.$store.state.city.id;
+
       this.cancelRequest();
 
-      this.axios.get('/api/searchList?cityId=10&kw=' + newVal,{
+      this.axios.get('/api/searchList?cityId='+ cityId +'&kw=' + newVal,{
         cancelToken: new this.axios.CancelToken(function(c){
                     that.source = c;
                 })
