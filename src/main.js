@@ -9,6 +9,10 @@ import axios from 'axios'
 //别的地方可用this.axios调用
 Vue.prototype.axios = axios;
 
+//引入echarts.js
+import echarts from 'echarts'
+Vue.prototype.echarts = echarts;
+
 //全局过滤器
 Vue.filter('setWH',(url , arg)=>{
     return url.replace(/w\.h/,arg);
@@ -20,6 +24,9 @@ Vue.component('Scroller' , Scroller);
 
 import Loading from '@/components/Loading'
 Vue.component('Loading',Loading);
+
+import Loop from '@/components/Loop'
+Vue.component('Loop',Loop);
 
 Vue.config.productionTip = false
 

@@ -39,6 +39,26 @@ export default {
                 detail : true
             }
         },
+        {   //动态路由
+            path : 'buyTicket/1/:movieId',
+            components : {
+                default : ()=> import('@/components/NowPlaying'),
+                detail : ()=> import('@/views/Movie/buyTicket')
+            },
+            props : {
+                detail : true
+            }
+        },
+        {   //动态路由
+            path : 'buyTicket/2/:movieId',
+            components : {
+                default : ()=> import('@/components/ComingSoon'),
+                detail : ()=> import('@/views/Movie/buyTicket')
+            },
+            props : {
+                detail : true
+            }
+        },
         {
             path : '/movie',
             redirect : '/movie/nowPlaying'

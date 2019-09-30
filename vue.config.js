@@ -1,6 +1,7 @@
 //反向代理
 
 module.exports = {
+    publicPath : '/maomao',
     devServer : {
         proxy : {
             '/api' : {

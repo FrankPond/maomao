@@ -18,13 +18,17 @@
         </div>
         <div class="btn_mall">购票</div>
         </li>-->
-        <li class="pullDown">{{ pullDownMsg }}</li>
+        <div class="pullDown">
+          <Loop v-if="isLooping" />
+          <div>{{ pullDownMsg }}</div>
+        </div>
         <li v-for="item in movieList" :key="item.id">
           <div class="pic_show" @tap="handleToDetail(item.id)">
             <img :src="item.img | setWH('128.180')">
           </div>
-          <div class="info_list">
-            <h2 @tap="handleToDetail(item.id)">
+          <div class="info_list" @tap="handleToDetail(item.id)">
+              <!-- 可以考虑事件委托绑定事件 -->
+            <h2 >
               {{ item.nm }}
               <img v-if="item.version" src="@/assets/maxs.png" alt>
             </h2>
@@ -35,7 +39,7 @@
             <p>主演: {{ item.star }}</p>
             <p>{{ item.showInfo }}</p>
           </div>
-          <div class="btn_mall">购票</div>
+          <div class="btn_mall" @tap="handleToBuyTicket(item.id)">购票</div>
         </li>
       </ul>
     </Scroller>
@@ -54,6 +58,7 @@ export default {
       movieList: [],
       pullDownMsg: "",
       isLoading : true,
+      isLooping : false,
       //切换城市时需要重新请求，但正在热映和即将上映之间切换时，不需要重新请求，只要从缓存中读取
       prevCityId : -1
     };
@@ -107,12 +112,17 @@ export default {
   },
   methods: {
     handleToDetail(movieId) {
-      console.log(movieId);
+      // console.log(movieId);
       this.$router.push('/movie/detail/1/' + movieId);
+    },
+    handleToBuyTicket(movieId){
+      console.log(movieId);
+      this.$router.push('/movie/buyTicket/1/' + movieId);
     },
     handleToScroll(pos){
       if( pos.y > 30 ){
-        this.pullDownMsg = '正在更新中';
+        this.pullDownMsg = '正在更新中...';
+        this.isLooping = true;
       }
     },
     handleToTouchEnd(pos){
@@ -120,10 +130,12 @@ export default {
         this.axios.get('/api/movieOnInfoList?cityId=10').then((res)=>{
           var msg = res.data.msg;
             if( msg === 'ok'){
-                this.pullDownMsg = '更新成功';
+                this.pullDownMsg = '更新成功!';
+                
                 setTimeout(()=>{
                   this.movieList = res.data.data.movieList;
                   this.pullDownMsg = '';
+                  this.isLooping = false;
                 },1000);
             }
         });
@@ -204,9 +216,17 @@ export default {
 .movie_body .btn_pre {
   background-color: #3c9fe6;
 }
+
 .movie_body .pullDown {
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items:center;
+  text-align: center;
   border: none;
+  color: #3c9fe6;
+  font: 16px '微软雅黑';
 }
 </style>

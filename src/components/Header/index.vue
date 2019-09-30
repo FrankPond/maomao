@@ -10,7 +10,7 @@ export default {
     props : {
       title : {
         type : String,
-        default : '喵喵影院'
+        default : '猫猫影院'
       }
     }
 };

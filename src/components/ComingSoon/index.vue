@@ -1,7 +1,7 @@
 <template>
   <div class="movie_body">
     <Loading v-if="isLoading" />
-    <Scroller v-else>
+    <Scroller v-else :handleToScroll="handleToScroll" :handleToTouchEnd="handleToTouchEnd">
       <ul>
         <!-- <li>
           <div class="pic_show">
@@ -17,11 +17,15 @@
           </div>
           <div class="btn_pre">预售</div>
         </li> -->
+        <div class="pullDown">
+          <Loop v-if="isLooping" />
+          <div>{{ pullDownMsg }}</div>
+        </div>
         <li v-for="item in comingList" :key="item.id">
           <div class="pic_show" @tap="handleToDetail(item.id)">
             <img :src="item.img | setWH('128.180')">
           </div>
-          <div class="info_list">
+          <div class="info_list" @tap="handleToDetail(item.id)">
             <h2 @tap="handleToDetail(item.id)">{{ item.nm }} <img v-if="item.version" src="@/assets/maxs.png" alt=""></h2>
             <p>
               <span class="person">{{ item.wish }}</span> 人想看
@@ -29,7 +33,7 @@
             <p>主演: {{ item.star }}</p>
             <p>{{ item.rt }}上映</p>
           </div>
-          <div class="btn_pre">预售</div>
+          <div class="btn_pre" @tap="handleToBuyTicket(item.id)">预售</div>
         </li>
       
       </ul>
@@ -44,6 +48,8 @@ export default {
     return {
       comingList : [],
       isLoading : true,
+      isLooping : false,
+      pullDownMsg : "",
       prevCityId : -1
     };
   },
@@ -65,6 +71,32 @@ export default {
   methods : {
     handleToDetail(movieId){
       this.$router.push('/movie/detail/2/' + movieId);
+    },
+    handleToBuyTicket(movieId){
+      console.log(movieId);
+      this.$router.push('/movie/buyTicket/2/' + movieId);
+    },
+    handleToScroll(pos){
+      if( pos.y > 30 ){
+        this.pullDownMsg = '正在更新中...';
+        this.isLooping = true;
+      }
+    },
+    handleToTouchEnd(pos){
+      if( pos.y > 30 ){
+        this.axios.get('/api/movieComingList?cityId=10').then((res)=>{
+          var msg = res.data.msg;
+            if( msg === 'ok'){
+                this.pullDownMsg = '更新成功!';
+                
+                setTimeout(()=>{
+                  this.comingList = res.data.data.comingList;
+                  this.pullDownMsg = '';
+                  this.isLooping = false;
+                },1000);
+            }
+        });
+      }
     }
   }
 };
@@ -83,4 +115,16 @@ export default {
 .movie_body .info_list img{ width:50px; position: absolute; right:10px; top: 5px;}
 .movie_body .btn_mall , .movie_body .btn_pre{ width:47px; height:27px; line-height: 28px; text-align: center; background-color: #f03d37; color: #fff; border-radius: 4px; font-size: 12px; cursor: pointer;}
 .movie_body .btn_pre{ background-color: #3c9fe6;}
+.movie_body .pullDown {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items:center;
+  text-align: center;
+  border: none;
+  color: #3c9fe6;
+  font: 16px '微软雅黑';
+}
 </style>
