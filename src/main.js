@@ -13,6 +13,11 @@ Vue.prototype.axios = axios;
 import echarts from 'echarts'
 Vue.prototype.echarts = echarts;
 
+//图片查看插件
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
+Vue.use(preview);
+
 //全局过滤器
 Vue.filter('setWH',(url , arg)=>{
     return url.replace(/w\.h/,arg);
@@ -27,6 +32,11 @@ Vue.component('Loading',Loading);
 
 import Loop from '@/components/Loop'
 Vue.component('Loop',Loop);
+
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 
