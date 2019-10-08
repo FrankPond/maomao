@@ -12,7 +12,7 @@
 				
 				<div class="detail_list_content">
 					<div class="detail_list_img">
-						<img :src="detailMovie.img | setWH('148.208')" alt="电影封面">
+						<img :src="detailMovie.img | setWH('296.416')" alt="电影封面" preview="0" preview-text="电影封面">
 					</div>
 					<div class="detail_list_info">
 						<h2>{{ detailMovie.nm }}</h2>
@@ -30,7 +30,7 @@
 						<div class="distributions_content">
 							<section class="flexBox">
 								<div class="flexBox-a">
-									<img src="@/assets/logo.png/" alt="logo" id="logo">
+									<img src="@/assets/logo.png/" alt="logo" id="logo" >
 									<span class="rateHeader">实时口碑</span>
 								</div>
 								<div class="flexBox">
@@ -69,8 +69,8 @@
 					
 					<ul class="swiper-wrapper">
 						<li v-for="(item,index) in detailMovie.photos" :key="index" class="swiper-slide">
-							<div>
-								<img :src="item | setWH('140.127')" alt="">
+							<div class="otherImg">
+								<img :src="item | setWH('280.250')" alt="剧照" preview="0" preview-text="剧照">
 							</div>
 						</li>
 					</ul>
@@ -204,6 +204,7 @@ export default {
 						freeModeSticky: true
 					});
 					this.getEchartsData(this.distributions);
+					this.$previewRefresh()
 				});
             }
         });
@@ -225,7 +226,7 @@ export default {
 .detail_list_bg{ width:100%; height:100%; background: 0 40%; filter: blur(20px); background-size:cover; position: absolute; left: 0; top: 0; z-index: -2;}
 .detail_list_filter{ width:100%; height:100%; position: absolute;background-color: #40454d;opacity: .55; position: absolute; left: 0; top: 0; z-index: -1;}
 .detail_list .detail_list_content{ display: flex; width:100%; height:100%; position: absolute; left: 0; top: 0; z-index: 2;}
-.detail_list .detail_list_img{ width:108px; height: 150px; border: solid 1px #f0f2f3; margin:20px;}
+.detail_list .detail_list_img{ width:110px; height: 152px;  margin:20px;}
 .detail_list .detail_list_img img{ width:100%; height: 100%;}
 .detail_list .detail_list_info{ margin-top: 20px;}
 .detail_list .detail_list_info h2{ font-size: 20px; color:white; font-weight: normal; line-height: 40px;}
@@ -237,7 +238,9 @@ export default {
 #content .detail_player{ margin:10px; }
 .detail_player .swiper-wrapper { display: flex; flex-direction: row; }
 .detail_player .swiper-slide{ width: auto; height:70px; margin-right: 10px; text-align: center; font-size: 14px;}
-.detail_player .swiper-slide img{ height:100%; margin-top: 5px; margin-bottom: 5px;}
+
+.otherImg { width:140px;  }
+.detail_player .swiper-slide img{ max-width: 100%; max-height:100%; margin-top: 5px; margin-bottom: 5px;}
 .detail_player .swiper-slide p:nth-of-type(2){ color:#999;}
 #textContainer { overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; }
 .fold { -webkit-line-clamp : 3; }

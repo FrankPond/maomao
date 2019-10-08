@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <Header title="喵喵电影"/>
+    <Header title="猫猫电影"/>
     <div id="content">
       <div class="movie_menu">
         <router-link tag="div" to="/movie/city" class="city_name">
@@ -39,11 +39,25 @@ export default {
 
     setTimeout(()=>{
         this.axios.get('/api/getLocation').then((res)=>{
-          var msg = res.data.msg;
-          if(msg === 'ok'){
+          console.log('oldres :'+res);
+        })
+        this.axios.get('http://106.15.251.58/api2/getLocationCity').then((res)=>{
+          console.log(res);
+          var msg = res.data.status;
+          if(msg === 0){
 
-            var nm = res.data.data.nm;
-            var id = res.data.data.id;
+            var nm = res.data.content.address_detail.city;
+            var id;
+            if(nm == '深圳市'){
+                id = 30;
+            }else if(nm == '广州市'){
+                id = 20;
+            }else if(nm == '北京市'){
+                id = 1;
+            }else if(nm == '上海市'){
+                id = 10;
+            }
+            // var id = res.data.content.address_detail.city_code;
             //如果定位是当前城市，则不进行弹窗
             if( this.$store.state.city.id == id ){return;}
             messageBox({
